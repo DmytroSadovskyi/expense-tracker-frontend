@@ -1,0 +1,53 @@
+{
+  "buttonText": "Увійти",
+  "inputs": [
+    {
+      "name": {
+        "textarea": false,
+        "label": "Email",
+        "name": "email",
+        "placeholder": "petro@gmail.com",
+        "validation": {
+          "required": {
+            "value": true,
+            "message": "Це поле є обов'язковим"
+          },
+          "pattern": {
+            "value": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+            "message": "Введіть коректний email"
+          },
+          "minLength": {
+            "value": 0,
+            "message": ""
+          },
+          "maxLength": {
+            "value": 40,
+            "message": "Максимальна довжина 40 символів"
+          }
+        }
+      }
+    },
+    {
+      "name": {
+        "textarea": false,
+        "label": "Пароль",
+        "name": "password",
+        "placeholder": "Введіть пароль",
+        "validation": {
+          "required": {
+            "value": true,
+            "message": "Введіть пароль"
+          },
+          "minLength": {
+            "value": 6,
+            "message": "Мінімальна довжина 6 символів"
+          },
+          "maxLength": {
+            "value": 40,
+            "message": "Максимальна довжина 40 символів"
+          }
+        }
+      }
+    }
+  ]
+}
