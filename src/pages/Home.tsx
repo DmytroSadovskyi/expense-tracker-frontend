@@ -1,7 +1,11 @@
-export const Home = () =>{
+import { Link } from 'react-router';
+
+export const Home = () => {
   return (
-      <>
-          <h1>Домашня сторінка</h1>
-      </>
-  )
-}
+    <>
+      <h1>Ласкаво просимо!</h1>
+      <Link to="/register">Зареєструватися</Link>
+      <Link to="/login">Увійти</Link>
+    </>
+  );
+};

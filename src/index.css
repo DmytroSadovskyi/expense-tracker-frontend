@@ -2,4 +2,24 @@
 @theme {
     --color-primary: #007bff;
     --color-error: #ff0000;
+    --color-success: #28a745;
+    --breakpoint-sm: 375px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1440px;
 }
+
+@layer base {
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number'] {
+        -webkit-appearance: none;
+        margin: 0;
+        -moz-appearance: textfield !important;
+    }
+}
+
+body {
+    font-family: Roboto, sans-serif;
+}
+

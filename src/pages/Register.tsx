@@ -1,10 +1,11 @@
-import { AuthForm } from '../components/AuthForm';
+import { UserForm } from '../components/UserForm';
 
 export const Register = () => {
   return (
-    <>
-      <h1>Сторінка реєстрації</h1>
-      <AuthForm type="register" />
-    </>
+    <section className="bg-gray-200 py-10 px-10 min-h-screen">
+      <div className="flex flex-col justify-center items-center">
+        <UserForm type="register" />
+      </div>
+    </section>
   );
 };

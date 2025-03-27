@@ -33,11 +33,18 @@ export const Input = ({
 
   const isPasswordField = config.name === 'password';
 
-  const inputType = isPasswordField
-    ? showPassword
-      ? 'text'
-      : 'password'
-    : 'text';
+  const inputType = () => {
+    switch (config.name) {
+      case 'password':
+        return showPassword ? 'text' : 'password';
+      case 'date':
+        return 'date';
+      case 'amount':
+        return 'number';
+      default:
+        return 'text';
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -64,7 +71,9 @@ export const Input = ({
 
   return (
     <div className={formFieldClasses}>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name} className="mb-2">
+        {label}
+      </label>
       {textarea ? (
         <div>
           <textarea id={name} placeholder={placeholder} {...register(name)} />
@@ -73,7 +82,7 @@ export const Input = ({
         <div className={wrapperClasses}>
           <input
             className={inputClasses}
-            type={inputType}
+            type={inputType()}
             aria-required="true"
             aria-invalid={isError ? 'true' : 'false'}
             aria-describedby={isError ? `errorName${name}` : undefined}
@@ -117,7 +126,10 @@ export const Input = ({
             </span>
           )}
           {isSuccess && !isPasswordField && (
-            <BiCheck className="success absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 transform" />
+            <BiCheck
+              className="success absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 transform"
+              color="#28a745"
+            />
           )}{' '}
           {isError && !isFocused && (
             <>

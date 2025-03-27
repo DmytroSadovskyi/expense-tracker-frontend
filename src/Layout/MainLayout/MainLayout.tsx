@@ -1,13 +1,11 @@
-import {Router} from "../../pages/Router";
-import {Header} from "../Header";
-import {Footer} from "../Footer";
+import { Router } from '../../pages/Router';
+import { Header } from '../Header';
 
-export const MainLayout = () =>{
-    return (
-        <>
-        <Header/>
-        <Router/>
-        <Footer/>
-        </>
-    )
-}
+export const MainLayout = () => {
+  return (
+    <>
+      <Header />
+      <Router />
+    </>
+  );
+};
