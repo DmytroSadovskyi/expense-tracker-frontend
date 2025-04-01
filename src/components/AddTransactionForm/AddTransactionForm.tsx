@@ -5,10 +5,12 @@ import { uk } from 'date-fns/locale/uk';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { Input } from '../Input';
 import 'react-datepicker/dist/react-datepicker.css';
-import data from '../../../data/addTransactionForm.json';
+import incomeFormData from '../../../data/addIncomeForm.json';
+import expenseFormData from '../../../data/addExpenseForm.json';
 import { FormData } from '../Input/props.ts';
+import { AddTransactionFormProps } from './props.ts';
 
-export const AddTransactionForm = () => {
+export const AddTransactionForm = ({ onClose }: AddTransactionFormProps) => {
   const {
     register,
     watch,
@@ -19,11 +21,33 @@ export const AddTransactionForm = () => {
   } = useForm<FormData>({
     mode: 'onChange',
   });
-  const { inputs } = data;
 
   const [date, setDate] = useState<Date | null>(new Date());
+  const [transactionType, setTransactionType] = useState<'expense' | 'income'>(
+    'income',
+  );
+
+  const data = transactionType === 'expense' ? expenseFormData : incomeFormData;
+  const { inputs } = data;
 
   registerLocale('uk', uk);
+
+  const setExpense = () => {
+    setTransactionType('expense');
+  };
+
+  const setIncome = () => {
+    setTransactionType('income');
+  };
+
+  const incomeButtonClass =
+    transactionType === 'income'
+      ? 'bg-primary text-white py-3 rounded-lg px-4  hover:bg-blue-600 transition-colors cursor-pointer focus:bg-blue-600 w-1/2'
+      : 'border border-primary text-black py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors cursor-pointer focus:bg-blue-600 hover:text-white focus:text-white w-1/2';
+  const expenseButtonClass =
+    transactionType === 'expense'
+      ? 'bg-primary text-white py-3 rounded-lg px-4  hover:bg-blue-600 transition-colors cursor-pointer focus:bg-blue-600 w-1/2'
+      : 'border border-primary text-black py-3 px-4 rounded-lg hover:bg-blue-600 hover:text-white focus:text-white transition-colors cursor-pointer focus:bg-blue-600 w-1/2';
 
   const onSubmit: SubmitHandler<FormData> = data => {
     const dataToSend = {
@@ -33,6 +57,7 @@ export const AddTransactionForm = () => {
     };
     console.log(dataToSend);
     reset();
+    onClose();
   };
   return (
     <form
@@ -40,6 +65,19 @@ export const AddTransactionForm = () => {
       className="w-full"
       autoComplete="off"
     >
+      <p className="mb-2">Тип транзакції</p>
+      <div className="flex gap-2 mb-6">
+        <button type="button" className={incomeButtonClass} onClick={setIncome}>
+          Дохід
+        </button>
+        <button
+          type="button"
+          className={expenseButtonClass}
+          onClick={setExpense}
+        >
+          Витрата
+        </button>
+      </div>
       {inputs.map(input => (
         <Input
           key={input.name.label}
@@ -53,8 +91,11 @@ export const AddTransactionForm = () => {
           errors={errors}
         />
       ))}
-      <p className="mb-2">Дата</p>
+      <label htmlFor="date-picker" className="mb-2 block cursor-pointer">
+        Дата
+      </label>
       <DatePicker
+        id="date-picker"
         onChange={date => setDate(date)}
         selected={date}
         showMonthYearDropdown={true}
@@ -66,7 +107,7 @@ export const AddTransactionForm = () => {
         dateFormat="dd/MM/yyyy"
         timeCaption="Час"
         popperPlacement="bottom-start"
-        className="w-full border border-primary rounded-[4px] h-[48px] pb-[16px] pl-4 pt-[15px] text-[16px] leading-[1.2] text-darkGray outline-none  placeholder:text-[16px] placeholder:leading-[1.2] placeholder:text-disabled md:text-[14px] md:placeholder:text-[14px]"
+        className="pb-[16px] pl-4 pt-[15px] border border-primary rounded-[4px] h-[48px]  text-[16px] leading-[1.2] text-darkGray outline-none  placeholder:text-[16px] placeholder:leading-[1.2] placeholder:text-disabled md:text-[14px] md:placeholder:text-[14px]"
       />
       <button
         type="submit"

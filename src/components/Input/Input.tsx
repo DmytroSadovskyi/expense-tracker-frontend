@@ -6,7 +6,6 @@ import { FormInputProps } from './props.ts';
 export const Input = ({
   config,
   errors,
-  // formType,
   register,
   trigger,
   watch,
@@ -17,7 +16,6 @@ export const Input = ({
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const value = watch(name);
-  // const password = watch('password');
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -71,7 +69,7 @@ export const Input = ({
 
   return (
     <div className={formFieldClasses}>
-      <label htmlFor={name} className="mb-2">
+      <label htmlFor={name} className="mb-2 cursor-pointer">
         {label}
       </label>
       {textarea ? (
@@ -128,7 +126,7 @@ export const Input = ({
           {isSuccess && !isPasswordField && (
             <BiCheck
               className="success absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 transform"
-              color="#28a745"
+              color="#007bff"
             />
           )}{' '}
           {isError && !isFocused && (

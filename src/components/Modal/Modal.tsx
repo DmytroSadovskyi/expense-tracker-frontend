@@ -39,7 +39,7 @@ export const Modal = ({ onClose, isOpen }: ModalProps) => {
   );
 
   const modalClasses = classNames(
-    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl p-10 w-[90%] max-w-[600px] transition-all duration-300',
+    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl p-10 w-[90%] max-h-[90%]  overflow-x-hidden overflow-y-scroll max-w-[600px] transition-all duration-300',
     {
       'scale-100 opacity-100': isOpen,
       'scale-90 opacity-0': !isOpen,
@@ -56,7 +56,7 @@ export const Modal = ({ onClose, isOpen }: ModalProps) => {
           >
             <IoMdClose className="h-6 w-6 cursor-pointer " />
           </button>
-          <AddTransactionForm />
+          <AddTransactionForm onClose={onClose} />
         </div>
       </div>
     </>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Modal } from '../components/Modal';
+import { TransactionTable } from '../components/TransactionTable';
 
 export const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,10 +20,11 @@ export const Dashboard = () => {
 
         <button
           onClick={handleOpen}
-          className=" bg-primary text-white  rounded-lg mt-8 hover:bg-blue-600 focus:bg-blue-600 transition-colors cursor-pointer py-2 px-4"
+          className=" bg-primary text-white  rounded-lg mt-8 hover:bg-blue-600 focus:bg-blue-600 transition-colors cursor-pointer py-2 px-4 mb-6"
         >
           Додати запис
         </button>
+        <TransactionTable />
       </div>
     </section>
   );

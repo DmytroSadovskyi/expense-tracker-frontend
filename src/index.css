@@ -7,6 +7,7 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1440px;
+
 }
 
 @layer base {
@@ -23,3 +24,19 @@ body {
     font-family: Roboto, sans-serif;
 }
 
+@utility container {
+    padding-inline: 20px;
+    margin-inline: auto;
+
+    @variant sm {
+        padding-inline: 20px;
+    }
+
+    @variant md {
+        padding-inline: 40px;
+    }
+
+    @variant xl {
+        padding-inline: 50px;
+    }
+}

@@ -1,0 +1,60 @@
+{
+  "buttonText": "Додати",
+  "inputs": [
+    {
+      "name": {
+        "textarea": false,
+        "label": "Категорія",
+        "name": "category",
+        "placeholder": "Заробітня платня",
+        "validation": {
+          "required": {
+            "value": true,
+            "message": "Це поле є обов'язковим"
+          },
+          "pattern": {
+            "value": "^(?!.*(?:[ -]{2,}| -| - |^[ -]|^-))[A-Za-zА-Яа-яЁёІіЇїЄєҐґ'ʼ` -]+$",
+            "message": "Введіть коректну категорію"
+          },
+          "minLength": {
+            "value": 2,
+            "message": "Введіть категорію"
+          }
+        }
+      }
+    },
+    {"name": {
+      "textarea": false,
+      "label": "Опис",
+      "name": "description",
+      "placeholder": "Оплата за минулий місяць",
+      "validation": {
+        "required": {
+          "value": true,
+          "message": "Це поле є обов'язковим"
+        },
+        "pattern": {
+          "value": "^(?!.*(?:[ -]{2,}| -| - |^[ -]|^-))[A-Za-zА-Яа-яЁёІіЇїЄєҐґ'ʼ` -]+$",
+          "message": "Введіть коректний опис"
+        },
+        "minLength": {
+          "value": 2,
+          "message": "Введіть опис"
+        }
+      }
+    }},
+    {"name": {
+      "textarea": false,
+      "label": "Сума",
+      "name": "amount",
+      "placeholder": "14000",
+      "validation": {
+        "required": {
+          "value": true,
+          "message": "Це поле є обов'язковим"
+        }
+
+      }
+    }}
+  ]
+}
