@@ -25,18 +25,26 @@ body {
 }
 
 @utility container {
-    padding-inline: 20px;
+    padding-inline: 16px;
     margin-inline: auto;
 
     @variant sm {
-        padding-inline: 20px;
+        padding-inline: 16px;
     }
 
     @variant md {
-        padding-inline: 40px;
+        padding-inline: 20px;
     }
 
     @variant xl {
-        padding-inline: 50px;
+        padding-inline: 40px;
     }
+}
+
+.td-class {
+    @apply text-center px-8 py-4 text-gray-900
+}
+
+.tr-class {
+    @apply flex flex-col mb-4 last-of-type:mb-0 md:table-row md:hover:bg-gray-400 bg-white max-[767.98px]:rounded-xl
 }

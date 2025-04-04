@@ -1,13 +1,22 @@
 import { useEffect, useRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import classNames from 'classnames';
-import { AddTransactionForm } from '../AddTransactionForm';
 
 import { ModalProps } from './props.ts';
 
-export const Modal = ({ onClose, isOpen }: ModalProps) => {
+export const Modal = ({ onClose, isOpen, children, type }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current?.contains(e.target as Element))
@@ -39,8 +48,10 @@ export const Modal = ({ onClose, isOpen }: ModalProps) => {
   );
 
   const modalClasses = classNames(
-    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl p-10 w-[90%] max-h-[90%]  overflow-x-hidden overflow-y-scroll max-w-[600px] transition-all duration-300',
+    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl p-10 w-[90%]  max-w-[600px] transition-all duration-300',
     {
+      'max-h-[90%]  overflow-x-hidden overflow-y-scroll':
+        type === 'transaction',
       'scale-100 opacity-100': isOpen,
       'scale-90 opacity-0': !isOpen,
     },
@@ -52,11 +63,11 @@ export const Modal = ({ onClose, isOpen }: ModalProps) => {
         <div ref={modalRef} className={modalClasses}>
           <button
             onClick={onClose}
-            className="absolute right-6 top-6 text-primary hover:text-blue-600 focus:text-blue-600  hover:rotate-180 transition-all"
+            className="h-6 w-6 cursor-pointer absolute right-6 top-6 text-primary hover:text-blue-600 focus:text-blue-600  hover:rotate-180 transition-all"
           >
-            <IoMdClose className="h-6 w-6 cursor-pointer " />
+            <IoMdClose className="w-full h-full" />
           </button>
-          <AddTransactionForm onClose={onClose} />
+          {children}
         </div>
       </div>
     </>

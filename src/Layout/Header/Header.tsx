@@ -1,7 +1,7 @@
 export const Header = () => {
-    return (
-        <header>
-            Тут буде хедер
-        </header>
-    )
-}
+  return (
+    <header>
+      <div className="container">Тут буде хедер</div>
+    </header>
+  );
+};

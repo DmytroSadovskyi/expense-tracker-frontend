@@ -1,6 +1,6 @@
 export type Transaction = {
-  id: string;
-  type: 'дохід' | 'витрата';
+  _id: string;
+  type: string;
   category: string;
   description: string;
   amount: number;

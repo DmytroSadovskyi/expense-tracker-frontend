@@ -1,16 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { uk } from 'date-fns/locale/uk';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { Input } from '../Input';
+
 import 'react-datepicker/dist/react-datepicker.css';
 import incomeFormData from '../../../data/addIncomeForm.json';
 import expenseFormData from '../../../data/addExpenseForm.json';
 import { FormData } from '../Input/props.ts';
 import { AddTransactionFormProps } from './props.ts';
 
-export const AddTransactionForm = ({ onClose }: AddTransactionFormProps) => {
+export const AddTransactionForm = ({
+  onClose,
+  isEditForm,
+  transaction,
+}: AddTransactionFormProps) => {
+  const [transactionType, setTransactionType] = useState<'expense' | 'income'>(
+    'income',
+  );
+  const [date, setDate] = useState<Date | null>(new Date());
+
+  const data = transactionType === 'expense' ? expenseFormData : incomeFormData;
   const {
     register,
     watch,
@@ -20,14 +31,47 @@ export const AddTransactionForm = ({ onClose }: AddTransactionFormProps) => {
     formState: { errors, isDirty, isValid },
   } = useForm<FormData>({
     mode: 'onChange',
+    defaultValues: transaction
+      ? {
+          _id: transaction._id,
+          category: transaction.category,
+          description: transaction.description,
+          amount: transaction.amount,
+          date: transaction.date,
+        }
+      : {},
   });
 
-  const [date, setDate] = useState<Date | null>(new Date());
-  const [transactionType, setTransactionType] = useState<'expense' | 'income'>(
-    'income',
-  );
+  useEffect(() => {
+    if (transaction && transaction.type === 'витрата') {
+      setTransactionType('expense');
+    } else {
+      setTransactionType('income');
+    }
+  }, [transaction]);
 
-  const data = transactionType === 'expense' ? expenseFormData : incomeFormData;
+  useEffect(() => {
+    if (transaction) {
+      setDate(new Date(transaction.date));
+    } else {
+      setDate(new Date());
+    }
+  }, [transaction]);
+
+  useEffect(() => {
+    if (transaction) {
+      reset({
+        id: transaction.id,
+        category: transaction.category,
+        description: transaction.description,
+        amount: transaction.amount,
+        date: transaction.date,
+      });
+    } else {
+      reset();
+    }
+  }, [transaction, reset]);
+
   const { inputs } = data;
 
   registerLocale('uk', uk);
@@ -52,7 +96,7 @@ export const AddTransactionForm = ({ onClose }: AddTransactionFormProps) => {
   const onSubmit: SubmitHandler<FormData> = data => {
     const dataToSend = {
       ...data,
-      date: date,
+      date: String(date),
       amount: Number(data.amount),
     };
     console.log(dataToSend);
@@ -67,13 +111,19 @@ export const AddTransactionForm = ({ onClose }: AddTransactionFormProps) => {
     >
       <p className="mb-2">Тип транзакції</p>
       <div className="flex gap-2 mb-6">
-        <button type="button" className={incomeButtonClass} onClick={setIncome}>
+        <button
+          type="button"
+          className={incomeButtonClass}
+          onClick={setIncome}
+          disabled={isEditForm && transaction?.type === 'витрата'}
+        >
           Дохід
         </button>
         <button
           type="button"
           className={expenseButtonClass}
           onClick={setExpense}
+          disabled={isEditForm && transaction?.type === 'дохід'}
         >
           Витрата
         </button>
@@ -113,7 +163,7 @@ export const AddTransactionForm = ({ onClose }: AddTransactionFormProps) => {
         type="submit"
         className="w-full bg-primary text-white py-3 rounded-lg mt-8 hover:bg-blue-600 transition-colors cursor-pointer  mb-6 focus:bg-blue-600"
       >
-        {data.buttonText}
+        {isEditForm ? 'Зберегти' : data.buttonText}
       </button>
     </form>
   );
