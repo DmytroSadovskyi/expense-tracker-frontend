@@ -17,9 +17,10 @@ import {
 import { Modal } from '../Modal';
 import { ConfirmationModalContent } from '../ConfirmationModalContent';
 import { AddTransactionForm } from '../AddTransactionForm';
-import fakeData from '../../../data/fakeData.json';
 import { Searchbar } from '../Searchbar/Searchbar.tsx';
 
+import fakeData from '../../../data/fakeData.json';
+import tableData from '../../../data/table.json';
 export const TransactionTable = () => {
   const [data, setData] = useState<Transaction[]>(fakeData);
   const [showModal, setShowModal] = useState(false);
@@ -28,6 +29,18 @@ export const TransactionTable = () => {
   const [transaction, setTransaction] = useState<Transaction>();
   // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+
+  const {
+    firstColumnText,
+    secondColumnText,
+    thirdColumnText,
+    fourthColumnText,
+    fifthColumnText,
+    sixthColumnText,
+    seventhColumnText,
+    editButtonText,
+    deleteButtonText,
+  } = tableData;
 
   const handleOpen = () => {
     setShowModal(true);
@@ -54,29 +67,29 @@ export const TransactionTable = () => {
   const columns = useMemo(
     () => [
       columnHelper.accessor('_id', {
-        header: () => 'ID',
+        header: () => `${firstColumnText}`,
         cell: info => info.getValue(),
       }),
       columnHelper.accessor('type', {
-        header: () => 'Тип',
+        header: () => `${secondColumnText}`,
         cell: info => info.getValue(),
         meta: {
           filterVariant: 'select',
         },
       }),
       columnHelper.accessor('category', {
-        header: () => 'Категорія',
+        header: () => `${thirdColumnText}`,
         cell: info => info.getValue(),
       }),
       columnHelper.accessor('description', {
-        header: () => 'Опис',
+        header: () => `${fourthColumnText}`,
         cell: info => info.getValue(),
       }),
       columnHelper.accessor('amount', {
-        header: () => 'Сума',
+        header: () => `${fifthColumnText}`,
       }),
       columnHelper.accessor('date', {
-        header: 'Дата',
+        header: `${sixthColumnText}`,
         cell: info =>
           new Date(info.getValue()).toLocaleDateString('uk-UA', {
             year: 'numeric',
@@ -86,7 +99,7 @@ export const TransactionTable = () => {
       }),
       {
         id: 'actions',
-        header: 'Дії',
+        header: `${seventhColumnText}`,
         cell: ({ row }: { row: Row<Transaction> }) => {
           const transaction = row.original;
 
@@ -99,7 +112,7 @@ export const TransactionTable = () => {
                   setTransaction(transaction);
                 }}
               >
-                <span className="md:hidden">Редагувати</span>
+                <span className="md:hidden">{editButtonText}</span>
                 <BiEdit className="w-full h-full max-[767.98px]:hidden md:block" />
               </button>
               <button
@@ -109,7 +122,7 @@ export const TransactionTable = () => {
                   setDeletedId(transaction._id);
                 }}
               >
-                <span className="md:hidden">Видалити</span>
+                <span className="md:hidden">{deleteButtonText}</span>
                 <BiTrash className="w-full h-full max-[767.98px]:hidden md:block" />
               </button>
             </div>
@@ -117,7 +130,18 @@ export const TransactionTable = () => {
         },
       },
     ],
-    [columnHelper],
+    [
+      columnHelper,
+      firstColumnText,
+      secondColumnText,
+      thirdColumnText,
+      fourthColumnText,
+      fifthColumnText,
+      sixthColumnText,
+      seventhColumnText,
+      editButtonText,
+      deleteButtonText,
+    ],
   );
 
   const table = useReactTable({

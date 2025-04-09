@@ -1,0 +1,12 @@
+{
+  "titleText": "Список транзакцій",
+  "firstColumnText": "ID",
+  "secondColumnText": "Тип",
+  "thirdColumnText": "Категорія",
+  "fourthColumnText": "Опис",
+  "fifthColumnText": "Сума",
+  "sixthColumnText": "Дата",
+  "seventhColumnText": "Дії",
+  "editButtonText": "Редагувати",
+  "deleteButtonText": "Видалити"
+}

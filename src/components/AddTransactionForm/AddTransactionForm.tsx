@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { uk } from 'date-fns/locale/uk';
 import DatePicker, { registerLocale } from 'react-datepicker';
+// import classNames from 'classnames';
 import { Input } from '../Input';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import incomeFormData from '../../../data/addIncomeForm.json';
 import expenseFormData from '../../../data/addExpenseForm.json';
+import commonData from '../../../data/common.json';
 import { FormData } from '../Input/props.ts';
 import { AddTransactionFormProps } from './props.ts';
 
@@ -22,6 +24,8 @@ export const AddTransactionForm = ({
   const [date, setDate] = useState<Date | null>(new Date());
 
   const data = transactionType === 'expense' ? expenseFormData : incomeFormData;
+  const { saveButtonText, expenseButtonText, incomeButtonText } = commonData;
+
   const {
     register,
     watch,
@@ -117,7 +121,7 @@ export const AddTransactionForm = ({
           onClick={setIncome}
           disabled={isEditForm && transaction?.type === 'витрата'}
         >
-          Дохід
+          {incomeButtonText}
         </button>
         <button
           type="button"
@@ -125,7 +129,7 @@ export const AddTransactionForm = ({
           onClick={setExpense}
           disabled={isEditForm && transaction?.type === 'дохід'}
         >
-          Витрата
+          {expenseButtonText}
         </button>
       </div>
       {inputs.map(input => (
@@ -142,7 +146,7 @@ export const AddTransactionForm = ({
         />
       ))}
       <label htmlFor="date-picker" className="mb-2 block cursor-pointer">
-        Дата
+        {data.dateLabelText}
       </label>
       <DatePicker
         id="date-picker"
@@ -161,9 +165,9 @@ export const AddTransactionForm = ({
       />
       <button
         type="submit"
-        className="w-full bg-primary text-white py-3 rounded-lg mt-8 hover:bg-blue-600 transition-colors cursor-pointer  mb-6 focus:bg-blue-600"
+        className="w-full bg-primary text-white py-3 rounded-lg mt-8 hover:bg-blue-600 hover:-translate-y-1 transition-all duration-300 cursor-pointer  mb-6 focus:bg-blue-600"
       >
-        {isEditForm ? 'Зберегти' : data.buttonText}
+        {isEditForm ? saveButtonText : data.buttonText}
       </button>
     </form>
   );

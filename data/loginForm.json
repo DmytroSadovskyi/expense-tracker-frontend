@@ -1,5 +1,7 @@
 {
+  "title": "Вхід",
   "buttonText": "Увійти",
+  "questionText":"Ще не маєте акаунта?",
   "inputs": [
     {
       "name": {

@@ -40,7 +40,7 @@ export const Modal = ({ onClose, isOpen, children, type }: ModalProps) => {
   }, [isOpen, onClose]);
 
   const backdropClasses = classNames(
-    'fixed h-full w-full top-0 left-0 rgb(255,0,0)]/50 transition-opacity backdrop-blur-[3px]',
+    'fixed h-full w-full top-0 left-0 rgb(255,0,0)]/50 transition-opacity backdrop-blur-[3px] z-99',
     {
       'opacity-100 visible': isOpen,
       'opacity-0 invisible': !isOpen,

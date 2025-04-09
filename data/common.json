@@ -1,0 +1,18 @@
+{
+  "saveButtonText": "Зберегти",
+  "incomeButtonText": "Дохід",
+  "expenseButtonText": "Витрата",
+  "header": {
+    "firstText": "Трекер Витрат",
+    "secondText": "Керуйте своїми фінансами легко та ефективно"
+  },
+  "footer": {
+    "text": "Трекер Витрат. Усі права захищено."
+  },
+"confirmationContent": {
+  "questionText": "Ви впевнені?",
+  "confirmText": "Так",
+  "cancelText": "Ні"
+}
+
+}

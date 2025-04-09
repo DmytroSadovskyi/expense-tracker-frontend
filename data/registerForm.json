@@ -1,5 +1,7 @@
 {
+  "title": "Реєстрація",
   "buttonText": "Зареєструватися",
+  "questionText": "Вже маєте акаунт?",
   "inputs": [
     {
       "name": {

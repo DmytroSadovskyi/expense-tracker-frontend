@@ -7,6 +7,7 @@ import {
   Font,
 } from '@react-pdf/renderer';
 
+import tableData from '../../../data/table.json';
 import { Transaction } from '../TransactionTable/props.ts';
 
 Font.register({
@@ -88,6 +89,16 @@ const styles = StyleSheet.create({
   },
 });
 
+const {
+  titleText,
+  fifthColumnText,
+  secondColumnText,
+  thirdColumnText,
+  fourthColumnText,
+  sixthColumnText,
+  firstColumnText,
+} = tableData;
+
 export const TransactionTablePDF = ({
   transactions,
 }: {
@@ -96,28 +107,28 @@ export const TransactionTablePDF = ({
   <Document>
     <Page size="A4" style={styles.page}>
       <Text y={0} x={0} style={styles.title}>
-        Список транзакцій
+        {titleText}
       </Text>
 
       <View style={styles.table}>
         <View style={styles.row}>
           <Text y={0} x={0} style={styles.cell}>
-            ID
+            {firstColumnText}
           </Text>
           <Text y={0} x={0} style={styles.cell}>
-            Тип
+            {secondColumnText}
           </Text>
           <Text y={0} x={0} style={styles.cell}>
-            Категорія
+            {thirdColumnText}
           </Text>
           <Text y={0} x={0} style={styles.cell}>
-            Опис
+            {fourthColumnText}
           </Text>
           <Text y={0} x={0} style={styles.cell}>
-            Сума
+            {fifthColumnText}
           </Text>
           <Text y={0} x={0} style={styles.cell}>
-            Дата
+            {sixthColumnText}
           </Text>
         </View>
 

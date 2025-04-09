@@ -41,6 +41,8 @@ body {
     }
 }
 
+
+
 .td-class {
     @apply text-center px-8 py-4 text-gray-900
 }
@@ -48,3 +50,4 @@ body {
 .tr-class {
     @apply flex flex-col mb-4 last-of-type:mb-0 md:table-row md:hover:bg-gray-400 bg-white max-[767.98px]:rounded-xl
 }
+
