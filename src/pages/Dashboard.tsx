@@ -5,9 +5,8 @@ import { Modal } from '../components/Modal';
 import { TransactionTable } from '../components/TransactionTable';
 import { AddTransactionForm } from '../components/AddTransactionForm';
 import TransactionTablePDF from '../components/TransactionTablePDF/TransactionTablePDF.tsx';
-
+import { useTypedSelector } from '../../redux/store';
 import pagesData from '../../data/pages.json';
-import fakeData from '../../data/fakeData.json';
 
 export const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
@@ -17,15 +16,18 @@ export const Dashboard = () => {
 
   const handleOpen = () => {
     setShowModal(true);
-    localStorage.removeItem('EditTransactionForm');
   };
 
   const handleClose = () => {
     setShowModal(false);
-    localStorage.removeItem('EditTransactionForm');
   };
+
+  const transactions = useTypedSelector(
+    state => state.transactions.transactions,
+  );
+
   return (
-    <section className="py-10 bg-gradient-to-br from-gray-100 to-blue-100">
+    <section className="py-10 bg-gradient-to-br from-gray-100 to-blue-100 min-h-screen">
       <div className="container mx-auto">
         <Modal onClose={handleClose} isOpen={showModal} type="transaction">
           <AddTransactionForm onClose={handleClose} isEditForm={false} />
@@ -40,7 +42,7 @@ export const Dashboard = () => {
             {addRecordText}
           </button>
           <PDFDownloadLink
-            document={<TransactionTablePDF transactions={fakeData} />}
+            document={<TransactionTablePDF transactions={transactions} />}
             fileName="table.pdf"
           >
             <button

@@ -4,6 +4,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { uk } from 'date-fns/locale/uk';
 import DatePicker, { registerLocale } from 'react-datepicker';
 // import classNames from 'classnames';
+import { useAppDispatch, useTypedSelector } from '../../../redux/store';
+
+import {
+  addTransaction,
+  updateTransaction,
+} from '../../../redux/transactions/operations';
 import { Input } from '../Input';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,13 +24,15 @@ export const AddTransactionForm = ({
   isEditForm,
   transaction,
 }: AddTransactionFormProps) => {
-  const [transactionType, setTransactionType] = useState<'expense' | 'income'>(
-    'income',
+  const [transactionType, setTransactionType] = useState<'витрата' | 'дохід'>(
+    'дохід',
   );
   const [date, setDate] = useState<Date | null>(new Date());
 
-  const data = transactionType === 'expense' ? expenseFormData : incomeFormData;
+  const data = transactionType === 'витрата' ? expenseFormData : incomeFormData;
   const { saveButtonText, expenseButtonText, incomeButtonText } = commonData;
+  const dispatch = useAppDispatch();
+  const loading = useTypedSelector(state => state.transactions.isLoading);
 
   const {
     register,
@@ -48,9 +56,9 @@ export const AddTransactionForm = ({
 
   useEffect(() => {
     if (transaction && transaction.type === 'витрата') {
-      setTransactionType('expense');
+      setTransactionType('витрата');
     } else {
-      setTransactionType('income');
+      setTransactionType('дохід');
     }
   }, [transaction]);
 
@@ -81,29 +89,51 @@ export const AddTransactionForm = ({
   registerLocale('uk', uk);
 
   const setExpense = () => {
-    setTransactionType('expense');
+    setTransactionType('витрата');
   };
 
   const setIncome = () => {
-    setTransactionType('income');
+    setTransactionType('дохід');
   };
 
   const incomeButtonClass =
-    transactionType === 'income'
+    transactionType === 'дохід'
       ? 'bg-primary text-white py-3 rounded-lg px-4  hover:bg-blue-600 transition-colors cursor-pointer focus:bg-blue-600 w-1/2'
       : 'border border-primary text-black py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors cursor-pointer focus:bg-blue-600 hover:text-white focus:text-white w-1/2';
   const expenseButtonClass =
-    transactionType === 'expense'
+    transactionType === 'витрата'
       ? 'bg-primary text-white py-3 rounded-lg px-4  hover:bg-blue-600 transition-colors cursor-pointer focus:bg-blue-600 w-1/2'
       : 'border border-primary text-black py-3 px-4 rounded-lg hover:bg-blue-600 hover:text-white focus:text-white transition-colors cursor-pointer focus:bg-blue-600 w-1/2';
+
+  console.log(transaction);
 
   const onSubmit: SubmitHandler<FormData> = data => {
     const dataToSend = {
       ...data,
+      type: transactionType,
       date: String(date),
       amount: Number(data.amount),
     };
-    console.log(dataToSend);
+    console.log('dataToSend:', dataToSend);
+
+    if (isEditForm) {
+      dispatch(
+        updateTransaction({
+          _id: transaction?._id,
+          transaction: {
+            type: data.type,
+            category: data.category,
+            description: data.description,
+            date: String(date),
+            amount: Number(data.amount),
+            _id: data._id,
+          },
+        }),
+      );
+    } else {
+      dispatch(addTransaction(dataToSend));
+    }
+
     reset();
     onClose();
   };
@@ -167,7 +197,11 @@ export const AddTransactionForm = ({
         type="submit"
         className="w-full bg-primary text-white py-3 rounded-lg mt-8 hover:bg-blue-600 hover:-translate-y-1 transition-all duration-300 cursor-pointer  mb-6 focus:bg-blue-600"
       >
-        {isEditForm ? saveButtonText : data.buttonText}
+        {loading
+          ? 'Зачекайте...'
+          : isEditForm
+            ? saveButtonText
+            : data.buttonText}
       </button>
     </form>
   );

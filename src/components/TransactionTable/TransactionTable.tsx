@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 import { Transaction } from './props.ts';
 import { BiEdit, BiTrash } from 'react-icons/bi';
@@ -14,21 +14,37 @@ import {
   Row,
 } from '@tanstack/react-table';
 
+import { useAppDispatch, useTypedSelector } from '../../../redux/store';
+import {
+  deleteTransaction,
+  getAllTransactions,
+} from '../../../redux/transactions/operations';
+
 import { Modal } from '../Modal';
 import { ConfirmationModalContent } from '../ConfirmationModalContent';
 import { AddTransactionForm } from '../AddTransactionForm';
 import { Searchbar } from '../Searchbar/Searchbar.tsx';
 
-import fakeData from '../../../data/fakeData.json';
 import tableData from '../../../data/table.json';
 export const TransactionTable = () => {
-  const [data, setData] = useState<Transaction[]>(fakeData);
   const [showModal, setShowModal] = useState(false);
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [deletedId, setDeletedId] = useState('');
   const [transaction, setTransaction] = useState<Transaction>();
   // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getAllTransactions());
+  }, [dispatch]);
+
+  const transactions = useTypedSelector(
+    state => state.transactions.transactions,
+  );
+  console.log(transactions);
+  console.log('deletedId', deletedId);
 
   const {
     firstColumnText,
@@ -60,8 +76,9 @@ export const TransactionTable = () => {
   };
 
   const handleDeleteRow = (id: string) => {
-    setData(prevState => prevState.filter(item => item._id !== id));
+    dispatch(deleteTransaction(id));
   };
+
   const columnHelper = createColumnHelper<Transaction>();
 
   const columns = useMemo(
@@ -145,7 +162,7 @@ export const TransactionTable = () => {
   );
 
   const table = useReactTable({
-    data,
+    data: transactions,
     columns,
     filterFns: {},
     state: {
@@ -195,7 +212,13 @@ export const TransactionTable = () => {
               >
                 {row.getVisibleCells().map(cell => {
                   return (
-                    <td key={cell.id} className="td-class">
+                    <td
+                      key={cell.id}
+                      className={classNames('td-class', {
+                        'overflow-hidden overflow-ellipsis text-nowrap':
+                          cell.column.id === '_id',
+                      })}
+                    >
                       <span
                         className={classNames({
                           'text-success':

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
 import IncDecReducer from './reducers/testSlice';
 import { authReducer, AuthState } from './auth/authSlice';
-// import { transactionsReducer } from './transactions/transactionSlice';
+import { transactionsReducer } from './transactions/transactionSlice';
 import {
   persistStore,
   persistReducer,
@@ -25,7 +25,7 @@ export const store = configureStore({
   reducer: {
     IncDec: IncDecReducer,
     auth: persistReducer<AuthState>(authPersistConfig, authReducer),
-    // transactions: transactionsReducer,
+    transactions: transactionsReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
